@@ -1,6 +1,7 @@
+// Tillgänglig och robust hamburgarmeny för #hamburger / #menu / .close
 document.addEventListener('DOMContentLoaded', () => {
-  const menu = document.getElementById('menu');             // <nav id="menu">
-  const hamburger = document.getElementById('hamburger');    // <div id="hamburger">
+  const menu = document.getElementById('menu');
+  const hamburger = document.getElementById('hamburger');
   const closeBtn = menu ? menu.querySelector('.close') : null;
 
   if (!menu || !hamburger) {
@@ -8,43 +9,35 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // Säkerställ klassnamn som din CSS använder
-  menu.classList.add('site-nav');        // matchar .site-nav regler i din CSS
-  hamburger.classList.add('hamburger');  // matchar .hamburger regler i din CSS
-
-  // A11y-attribut
+  // A11y-attribut (utan att kräva <button>-tagg)
   hamburger.setAttribute('role', 'button');
   hamburger.setAttribute('tabindex', '0');
   hamburger.setAttribute('aria-controls', 'menu');
-
-  // Startläge: stängd meny på mobil (hidden=true). Din CSS visar ändå på desktop.
   hamburger.setAttribute('aria-expanded', 'false');
   menu.setAttribute('aria-hidden', 'true');
+
+  // Startläge: stängd på mobil (desktop visas ändå via CSS)
   if (!menu.hasAttribute('hidden')) menu.setAttribute('hidden', '');
 
-  // ---- Helpers ----
-  function isOpen() {
-    return hamburger.getAttribute('aria-expanded') === 'true';
-  }
+  const isOpen = () => hamburger.getAttribute('aria-expanded') === 'true';
 
   function openMenu() {
     hamburger.setAttribute('aria-expanded', 'true');
-    menu.removeAttribute('hidden');              // låter .site-nav synas (mobil)
+    menu.removeAttribute('hidden');
     menu.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('menu-open');    // låser scroll på mobil enligt din CSS
+    document.body.classList.add('menu-open');
 
-    // Fokusera första fokuserbara i menyn
+    // Fokusera första länk
     const first = menu.querySelector('a, button, [tabindex]:not([tabindex="-1"])');
     if (first) first.focus();
 
-    // Lyssnare för ESC och klick utanför
     document.addEventListener('keydown', onKeydown);
     document.addEventListener('click', onClickOutside, true);
   }
 
   function closeMenu({ returnFocus = true } = {}) {
     hamburger.setAttribute('aria-expanded', 'false');
-    menu.setAttribute('hidden', '');             // döljer i mobil (desktop överstyr via CSS)
+    menu.setAttribute('hidden', '');
     menu.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('menu-open');
 
@@ -54,16 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (returnFocus) hamburger.focus();
   }
 
-  function toggleMenu() {
-    isOpen() ? closeMenu() : openMenu();
-  }
+  function toggleMenu() { isOpen() ? closeMenu() : openMenu(); }
 
   function onKeydown(e) {
     if (e.key === 'Escape') {
       e.stopPropagation();
       closeMenu();
     }
-    // Om fokus är på hamburgaren: Enter/Space = toggla
     if ((e.key === 'Enter' || e.key === ' ') && document.activeElement === hamburger) {
       e.preventDefault();
       toggleMenu();
@@ -71,13 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function onClickOutside(e) {
-    // Stäng om man klickar utanför menyn och inte på hamburgaren
     if (!menu.contains(e.target) && e.target !== hamburger && !hamburger.contains(e.target)) {
       closeMenu();
     }
   }
 
-  // ---- Events ----
+  // Events
   hamburger.addEventListener('click', toggleMenu);
   hamburger.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleMenu(); }
@@ -92,9 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Stäng menyn när man klickar en länk (vanlig mobilförväntan)
+  // Stäng vid klick på länk (mobilförväntan)
   menu.addEventListener('click', (e) => {
-    const a = e.target.closest('a');
-    if (a) closeMenu({ returnFocus: false });
+    if (e.target.closest('a')) closeMenu({ returnFocus: false });
   });
 });
