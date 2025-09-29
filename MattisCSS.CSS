@@ -1,0 +1,44 @@
+header {
+  display: flex;
+  justify-content: space-between;
+}
+
+#menu {
+  display: none;
+  flex-direction: column;
+  background-color: darkcyan;
+  gap: 10px;
+  position: absolute;
+  top: 55px;
+  border-style: dotted;
+  right: 0;
+  width: 200px;
+  padding: 10px;
+  border-radius: 5px;
+}
+#menu a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 0;
+  display: block;
+}
+#menu.open {
+  display: flex;
+}
+#hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+#hamburger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: black;
+  border-radius: 2px;
+}
