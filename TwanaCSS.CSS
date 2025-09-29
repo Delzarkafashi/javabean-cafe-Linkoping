@@ -1,135 +1,134 @@
-/* Reset + design tokens */
+/* ===== Reset + tokens ===== */
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
-img { max-width: 100%; height: auto; display: block; }
+img, svg { display: block; max-width: 100%; }
 
-:root {
-  --bg: #fff;
-  --text: #222;
-  --brand: #6b4f3b; /* kaffe-brun */
-  --brand-contrast: #fff;
-  --surface: #f6f3f0;
-  --header-h: 56px;
+:root{
+  --bg:#fff;
+  --text:#222;
+  --brand:#6b4f3b;      /* kaffe-brun */
+  --surface:#f6f3f0;
+  --header-h:64px;      /* höjd på headern */
 }
 
-/* Tillgänglighet vid minskat rörelsebehov */
-@media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; animation: none !important; }
+@media (prefers-reduced-motion: reduce){
+  *{ transition:none !important; animation:none !important; }
 }
 
-body {
-  font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  color: var(--text);
-  background: var(--bg);
+body{
+  font:16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color:var(--text);
+  background:var(--bg);
 }
 
 /* Lås scroll när mobilmenyn är öppen */
-body.menu-open { overflow: hidden; }
+body.menu-open{ overflow:hidden; }
 
-.site-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 1rem;
-  background: var(--surface);
+/* ===== Header ===== */
+header{
   position: sticky;
   top: 0;
   z-index: 100;
   min-height: var(--header-h);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: .75rem 1rem;
+  background: var(--surface);
+  border-bottom: 1px solid rgba(0,0,0,.06);
 }
 
-.brand { display: inline-flex; align-items: center; gap: .5rem; font-weight: 600; }
-.brand img { width: 28px; height: 28px; }
-
-/* Hamburgerknappen (visuell) */
-.hamburger {
-  border: 0;
-  background: transparent;
-  padding: .625rem; /* lite större träffyta */
-  cursor: pointer;
-  line-height: 0;
+header h1{
+  font-size:1.25rem;
+  margin:0;
 }
-.hamburger:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
 
-.hamburger-box {
-  display: inline-block;
-  width: 24px; height: 18px; position: relative;
+/* ===== Hamburger (knappen) ===== */
+#hamburger{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:44px; height:44px;          /* bra träffyta */
+  border-radius:.5rem;
+  cursor:pointer;
+  user-select:none;
 }
-.hamburger-inner,
-.hamburger-inner::before,
-.hamburger-inner::after {
-  position: absolute;
-  width: 24px; height: 2px;
-  background: var(--text);
-  left: 0;
+#hamburger:focus-visible{
+  outline:2px solid var(--brand);
+  outline-offset:3px;
+}
+/* NYTT: gör så att tre streck kan animeras till ett “X” */
+#hamburger svg rect{
+  fill: var(--text);
   transition: transform .2s ease, opacity .2s ease;
+  transform-box: fill-box;        /* för korrekt rotationspunkt på SVG */
+  transform-origin: 50% 50%;
 }
-.hamburger-inner { top: 50%; transform: translateY(-50%); }
-.hamburger-inner::before { content: ""; top: -8px; }
-.hamburger-inner::after  { content: ""; top: 8px; }
+/* När menyn är öppen ändrar vi strecken */
+#hamburger[aria-expanded="true"] svg rect:nth-of-type(1){
+  transform: translateY(30px) rotate(45deg);
+}
+#hamburger[aria-expanded="true"] svg rect:nth-of-type(2){
+  opacity: 0;
+}
+#hamburger[aria-expanded="true"] svg rect:nth-of-type(3){
+  transform: translateY(-30px) rotate(-45deg);
+}
 
-/* När menyn är öppen – animera till ett kryss */
-.hamburger[aria-expanded="true"] .hamburger-inner { transform: rotate(45deg); }
-.hamburger[aria-expanded="true"] .hamburger-inner::before { transform: rotate(90deg) translateX(0.5px); top: 0; }
-.hamburger[aria-expanded="true"] .hamburger-inner::after  { opacity: 0; }
+/* ===== Meny (mobile-first) ===== */
+#menu[hidden]{ display:none !important; }
 
-/* Navigering: mobile-first */
-.site-nav[hidden] { display: none; }
-.site-nav {
-  position: absolute;
-  inset: var(--header-h) 0 auto 0; /* under headern */
+#menu{
+  position:absolute;
+  inset: var(--header-h) 0 auto 0;  /* under headern, full bredd */
   background: var(--surface);
-  border-top: 1px solid rgba(0,0,0,.05);
-  padding: .5rem 1rem;
-}
-.site-nav ul {
-  list-style: none;
-  margin: 0; padding: 0;
-  display: grid; gap: .25rem;
-}
-.site-nav a {
-  display: block;
-  padding: .75rem;
-  border-radius: .5rem;
-  text-decoration: none;
-  color: var(--text);
-}
-.site-nav a:hover,
-.site-nav a:focus { background: #eae3dc; }
-.site-nav a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
-
-main { padding: 1rem; }
-.hero { padding: 2rem 0; }
-.menu, .contact { padding: 1rem 0; }
-
-.site-footer {
-  padding: 1rem;
-  background: var(--surface);
-  text-align: center;
+  border-top:1px solid rgba(0,0,0,.06);
+  padding: .5rem 1rem 1rem;
+  display:block;                    /* syns när hidden tas bort */
+  z-index: 200;                     /* NYTT: över headern/innehållet */
 }
 
+#menu .close{
+  margin: .25rem 0 .5rem;
+  width:max-content;
+  padding:.25rem .5rem;
+  border-radius:.375rem;
+  cursor:pointer;
+  user-select:none;
+}
+#menu .close:focus-visible{
+  outline:2px solid var(--brand);
+  outline-offset:2px;
+}
 
-/* Om JavaScript är avstängt – visa alltid menyn */
+#menu a{
+  display:block;
+  padding:.75rem;
+  border-radius:.5rem;
+  color:var(--text);
+  text-decoration:none;
+}
+#menu a:hover,
+#menu a:focus{ background:#eae3dc; }
+#menu a:focus-visible{ outline:2px solid var(--brand); outline-offset:2px; }
+
+/* ===== Huvudinnehåll ===== */
+main{ padding:1rem; }
+
+/* ===== Desktop (≥768px): meny alltid synlig, horisontell, close döljs ===== */
 @media (min-width:768px){
-  .site-nav[hidden]{ display:block; }
-}
+  #menu[hidden]{ display:block !important; } /* visa även om hidden finns kvar */
 
-
-/* Desktop-anpassning: horisontell och alltid synlig */
-@media (min-width: 768px) {
-  .hamburger { display: none; }
-  .site-header { gap: 1rem; }
-
-  /* Överstyr [hidden] så menyn syns på desktop även om attributet ligger kvar */
-  .site-nav[hidden] { display: block; }
-
-  .site-nav {
+  #menu{
     position: static;
-    display: block;
-    padding: 0;
-    background: transparent;
-    border: 0;
+    border:0;
+    padding:0 1rem 0 0;
+    display:flex;
+    gap:.75rem;
+    align-items:center;
+    background:transparent;
+    z-index:auto;
   }
-  .site-nav ul { display: flex; gap: .5rem; }
-  .site-nav a { padding: .5rem .75rem; }
+
+  #menu .close{ display:none; }
 }
