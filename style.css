@@ -1,6 +1,8 @@
-#hamburger > span {
-    width: 35px;
-    height: 5px;
-    background-color: black;
-    margin: 6px 0;
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#hamburger {
+    cursor: pointer;
 }
