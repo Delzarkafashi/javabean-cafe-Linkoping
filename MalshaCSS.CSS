@@ -1,0 +1,139 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    line-height:1.6;
+    color: #333
+}
+
+header {
+  background: #6b4f4f;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 1.4rem;
+}
+
+#menu {
+    display: none;
+    flex-direction: column;
+    background-color: #333;
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    width: 200px;
+    padding: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#menu a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 0;
+    display:block;
+    transition: backgroung 0.3s;
+    
+}
+
+#menu a:hover {
+    background-color: #555
+}
+
+#menu a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 0;
+    display:block;
+}
+
+#hamburger {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#menu.open {
+    display: flex;
+}
+
+@media (min-width: 768px) {
+    #menu {
+        display: flex;
+        position: static;
+        flex-direction: row;
+        width: auto;
+        padding: 0;
+    }
+
+    #menu a {
+        padding: 0 10px;
+    }
+
+    #hamburger {
+        display: none;
+    }
+}
+
+#hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+
+}
+
+#hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: black;
+    border-radius: 2px;
+}
+
+#menu.open{
+    display: flex;
+}
+
+#hamburger.open span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+#hamburger.open span:nth-child(2) {
+    opacity: 0;
+}
+
+#hamburger.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+@media (min-width: 768px) {
+    #menu {
+        display: flex;
+        position: static;
+        flex-direction: row;
+        width: auto;
+        padding: 0;
+        background: none;
+    }
+
+    #menu a {
+        padding: 0 10px;
+        color: black;
+    }
+
+    #hamburger {
+        display: none;
+    }
+}
