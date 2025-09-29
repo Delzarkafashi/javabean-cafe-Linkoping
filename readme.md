@@ -1,0 +1,1 @@
+It is a group project where we as a team learn how to work with hamburger menu. So everybody in the team make individual css and js file. Also learning how to work with github project and issues.
