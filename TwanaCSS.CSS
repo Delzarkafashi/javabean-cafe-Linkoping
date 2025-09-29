@@ -108,6 +108,13 @@ main { padding: 1rem; }
   text-align: center;
 }
 
+
+/* Om JavaScript är avstängt – visa alltid menyn */
+@media (min-width:768px){
+  .site-nav[hidden]{ display:block; }
+}
+
+
 /* Desktop-anpassning: horisontell och alltid synlig */
 @media (min-width: 768px) {
   .hamburger { display: none; }
