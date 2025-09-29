@@ -1,0 +1,35 @@
+/* Hamburgarikonen 
+#hamburger {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 44px; height: 44px;
+  display: grid; place-items: center;
+  cursor: pointer;
+  z-index: 1001;
+}
+#menu-button { width: 28px; height: 28px; display: block; }
+
+/* Menyn – dold till vänster, glider in vid .open */
+#menu {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: 280px;
+  padding: 16px;
+  background: #fff;
+  border-right: 1px solid #eee;
+  transform: translateX(-100%);
+  transition: transform .25s ease;
+  z-index: 1000;
+}
+#menu.open { transform: translateX(0); }
+
+/* Länkarna (enkelt) */
+#menu a {
+  display: block;
+  margin: 12px 0;
+  text-decoration: none;
+  color: #111;
+  font-weight: 600;
+}
+   
