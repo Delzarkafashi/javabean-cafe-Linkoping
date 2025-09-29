@@ -1,0 +1,12 @@
+#menu {
+    display: none;
+    position: absolute;
+    top: 20px;
+    right: 0px;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.menu-visible {
+    display: flex;
+}
