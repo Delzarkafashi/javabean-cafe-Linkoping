@@ -1,4 +1,3 @@
-// Tillgänglig och robust hamburgarmeny för #hamburger / #menu / .close
 document.addEventListener('DOMContentLoaded', () => {
   const menu = document.getElementById('menu');
   const hamburger = document.getElementById('hamburger');
@@ -16,18 +15,17 @@ document.addEventListener('DOMContentLoaded', () => {
   hamburger.setAttribute('aria-expanded', 'false');
   menu.setAttribute('aria-hidden', 'true');
 
-  // Startläge: stängd på mobil (desktop visas ändå via CSS)
+  // Startläge: stängd på mobil (desktop syns via CSS)
   if (!menu.hasAttribute('hidden')) menu.setAttribute('hidden', '');
 
   const isOpen = () => hamburger.getAttribute('aria-expanded') === 'true';
 
   function openMenu() {
-    hamburger.setAttribute('aria-expanded', 'true');
+    hamburger.setAttribute('aria-expanded', 'true'); // ← triggar SVG-övergången
     menu.removeAttribute('hidden');
     menu.setAttribute('aria-hidden', 'false');
     document.body.classList.add('menu-open');
 
-    // Fokusera första länk
     const first = menu.querySelector('a, button, [tabindex]:not([tabindex="-1"])');
     if (first) first.focus();
 
@@ -36,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function closeMenu({ returnFocus = true } = {}) {
-    hamburger.setAttribute('aria-expanded', 'false');
+    hamburger.setAttribute('aria-expanded', 'false'); // ← tillbaka till tre linjer
     menu.setAttribute('hidden', '');
     menu.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('menu-open');

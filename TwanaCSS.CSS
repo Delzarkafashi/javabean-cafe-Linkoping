@@ -57,7 +57,23 @@ header h1{
   outline:2px solid var(--brand);
   outline-offset:3px;
 }
-#hamburger svg rect{ fill: var(--text); }
+/* NYTT: gör så att tre streck kan animeras till ett “X” */
+#hamburger svg rect{
+  fill: var(--text);
+  transition: transform .2s ease, opacity .2s ease;
+  transform-box: fill-box;        /* för korrekt rotationspunkt på SVG */
+  transform-origin: 50% 50%;
+}
+/* När menyn är öppen ändrar vi strecken */
+#hamburger[aria-expanded="true"] svg rect:nth-of-type(1){
+  transform: translateY(30px) rotate(45deg);
+}
+#hamburger[aria-expanded="true"] svg rect:nth-of-type(2){
+  opacity: 0;
+}
+#hamburger[aria-expanded="true"] svg rect:nth-of-type(3){
+  transform: translateY(-30px) rotate(-45deg);
+}
 
 /* ===== Meny (mobile-first) ===== */
 #menu[hidden]{ display:none !important; }
@@ -69,6 +85,7 @@ header h1{
   border-top:1px solid rgba(0,0,0,.06);
   padding: .5rem 1rem 1rem;
   display:block;                    /* syns när hidden tas bort */
+  z-index: 200;                     /* NYTT: över headern/innehållet */
 }
 
 #menu .close{
@@ -100,17 +117,17 @@ main{ padding:1rem; }
 
 /* ===== Desktop (≥768px): meny alltid synlig, horisontell, close döljs ===== */
 @media (min-width:768px){
-  /* Visa menyn även om hidden-attributet råkar ligga kvar */
-  #menu[hidden]{ display:block !important; }
+  #menu[hidden]{ display:block !important; } /* visa även om hidden finns kvar */
 
   #menu{
     position: static;
     border:0;
     padding:0 1rem 0 0;
     display:flex;
-    gap:.5rem;
+    gap:.75rem;
     align-items:center;
     background:transparent;
+    z-index:auto;
   }
 
   #menu .close{ display:none; }
