@@ -1,0 +1,128 @@
+/* Reset + design tokens */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+img { max-width: 100%; height: auto; display: block; }
+
+:root {
+  --bg: #fff;
+  --text: #222;
+  --brand: #6b4f3b; /* kaffe-brun */
+  --brand-contrast: #fff;
+  --surface: #f6f3f0;
+  --header-h: 56px;
+}
+
+/* Tillgänglighet vid minskat rörelsebehov */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+body {
+  font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+/* Lås scroll när mobilmenyn är öppen */
+body.menu-open { overflow: hidden; }
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  min-height: var(--header-h);
+}
+
+.brand { display: inline-flex; align-items: center; gap: .5rem; font-weight: 600; }
+.brand img { width: 28px; height: 28px; }
+
+/* Hamburgerknappen (visuell) */
+.hamburger {
+  border: 0;
+  background: transparent;
+  padding: .625rem; /* lite större träffyta */
+  cursor: pointer;
+  line-height: 0;
+}
+.hamburger:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+
+.hamburger-box {
+  display: inline-block;
+  width: 24px; height: 18px; position: relative;
+}
+.hamburger-inner,
+.hamburger-inner::before,
+.hamburger-inner::after {
+  position: absolute;
+  width: 24px; height: 2px;
+  background: var(--text);
+  left: 0;
+  transition: transform .2s ease, opacity .2s ease;
+}
+.hamburger-inner { top: 50%; transform: translateY(-50%); }
+.hamburger-inner::before { content: ""; top: -8px; }
+.hamburger-inner::after  { content: ""; top: 8px; }
+
+/* När menyn är öppen – animera till ett kryss */
+.hamburger[aria-expanded="true"] .hamburger-inner { transform: rotate(45deg); }
+.hamburger[aria-expanded="true"] .hamburger-inner::before { transform: rotate(90deg) translateX(0.5px); top: 0; }
+.hamburger[aria-expanded="true"] .hamburger-inner::after  { opacity: 0; }
+
+/* Navigering: mobile-first */
+.site-nav[hidden] { display: none; }
+.site-nav {
+  position: absolute;
+  inset: var(--header-h) 0 auto 0; /* under headern */
+  background: var(--surface);
+  border-top: 1px solid rgba(0,0,0,.05);
+  padding: .5rem 1rem;
+}
+.site-nav ul {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: grid; gap: .25rem;
+}
+.site-nav a {
+  display: block;
+  padding: .75rem;
+  border-radius: .5rem;
+  text-decoration: none;
+  color: var(--text);
+}
+.site-nav a:hover,
+.site-nav a:focus { background: #eae3dc; }
+.site-nav a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+main { padding: 1rem; }
+.hero { padding: 2rem 0; }
+.menu, .contact { padding: 1rem 0; }
+
+.site-footer {
+  padding: 1rem;
+  background: var(--surface);
+  text-align: center;
+}
+
+/* Desktop-anpassning: horisontell och alltid synlig */
+@media (min-width: 768px) {
+  .hamburger { display: none; }
+  .site-header { gap: 1rem; }
+
+  /* Överstyr [hidden] så menyn syns på desktop även om attributet ligger kvar */
+  .site-nav[hidden] { display: block; }
+
+  .site-nav {
+    position: static;
+    display: block;
+    padding: 0;
+    background: transparent;
+    border: 0;
+  }
+  .site-nav ul { display: flex; gap: .5rem; }
+  .site-nav a { padding: .5rem .75rem; }
+}
