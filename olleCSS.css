@@ -1,12 +1,13 @@
 #menu {
     display: none;
     position: absolute;
-    top: 20px;
+    top: 50px;
     right: 0px;
     flex-direction: column;
     gap: 1em;
 }
 
-.menu-visible {
+#menu.menu-visible {
     display: flex;
 }
+
